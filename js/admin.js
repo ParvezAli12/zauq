@@ -644,7 +644,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       try {
         res = await fetch(
-          `http://localhost:5000/api/products/${editingProductId}/image`,
+          `https://zauq-production.up.railway.app/api/products/${editingProductId}/image`,
           { method: 'POST', body: formData }
         );
       } catch (networkErr) {

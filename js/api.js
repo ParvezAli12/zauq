@@ -3,7 +3,7 @@
    Connects frontend to Node.js + Express + MongoDB backend
    ============================================================ */
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://zauq-production.up.railway.app/api';
 
 /* ----- TOKEN HELPERS ----- */
 const Auth = {
