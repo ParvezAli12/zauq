@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Zauq Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../css/style.css" />
+  <link rel="stylesheet" href="../../css/admin.css" />
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-follower" id="cursorFollower"></div>
+
+  <!-- ==================== ADMIN LOGIN ==================== -->
+  <div class="admin-login" id="adminLogin">
+    <div class="admin-login__inner">
+      <div class="admin-login__logo">
+        <span class="nav__logo-urdu">ذوق</span>
+        <span class="nav__logo-en">ZAUQ</span>
+      </div>
+      <p class="admin-login__label">Admin Access</p>
+      <h2 class="admin-login__title">Dashboard</h2>
+      <div class="form-group" style="margin-bottom:16px;">
+        <label class="admin-form-label">Email</label>
+        <input type="email" class="admin-input" id="adminEmail" placeholder="admin@zauq.pk" />
+      </div>
+      <div class="form-group" style="margin-bottom:24px;">
+        <label class="admin-form-label">Password</label>
+        <input type="password" class="admin-input" id="adminPassword" placeholder="Your password" />
+      </div>
+      <button type="button" class="btn btn--primary" id="adminLoginBtn"
+        style="width:100%;justify-content:center;">
+        Enter Dashboard
+      </button>
+      <p class="admin-login__err" id="adminLoginErr"></p>
+    </div>
+  </div>
+
+  <!-- ==================== ADMIN WRAP ==================== -->
+  <div class="admin-wrap hidden" id="adminWrap">
+
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar__logo">
+        <span class="nav__logo-urdu">ذوق</span>
+        <span class="nav__logo-en">ZAUQ</span>
+        <span class="admin-sidebar__badge">Admin</span>
+      </div>
+
+      <nav class="admin-nav">
+        <button type="button" class="admin-nav__item active" data-tab="overview">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+            <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+          </svg>
+          Overview
+        </button>
+        <button type="button" class="admin-nav__item" data-tab="orders">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+          </svg>
+          Orders
+        </button>
+        <button type="button" class="admin-nav__item" data-tab="products">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+          </svg>
+          Products
+        </button>
+        <button type="button" class="admin-nav__item" data-tab="customers">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+          Customers
+        </button>
+      </nav>
+
+      <button type="button" class="admin-sidebar__logout" id="adminLogout">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+        Sign Out
+      </button>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="admin-main">
+
+      <!-- TOP BAR -->
+      <div class="admin-topbar">
+        <div>
+          <h1 class="admin-topbar__title" id="tabTitle">Overview</h1>
+          <p class="admin-topbar__sub" id="tabSub">Welcome back to Zauq Admin</p>
+        </div>
+        <div class="admin-topbar__right">
+          <span class="admin-topbar__time" id="adminTime"></span>
+          <a href="../../index.html" class="admin-topbar__site" target="_blank">View Site ↗</a>
+        </div>
+      </div>
+
+      <!-- ====== OVERVIEW TAB ====== -->
+      <div class="admin-tab active" id="tab-overview">
+        <div class="admin-stats">
+          <div class="admin-stat-card">
+            <p class="admin-stat-card__label">Total Orders</p>
+            <p class="admin-stat-card__value" id="statOrders">—</p>
+            <p class="admin-stat-card__sub">All time</p>
+          </div>
+          <div class="admin-stat-card">
+            <p class="admin-stat-card__label">Total Revenue</p>
+            <p class="admin-stat-card__value" id="statRevenue">—</p>
+            <p class="admin-stat-card__sub">All time</p>
+          </div>
+          <div class="admin-stat-card">
+            <p class="admin-stat-card__label">Products</p>
+            <p class="admin-stat-card__value" id="statProducts">—</p>
+            <p class="admin-stat-card__sub">Active listings</p>
+          </div>
+          <div class="admin-stat-card">
+            <p class="admin-stat-card__label">Processing</p>
+            <p class="admin-stat-card__value" id="statProcessing">—</p>
+            <p class="admin-stat-card__sub">Pending orders</p>
+          </div>
+        </div>
+
+        <div class="admin-section">
+          <div class="admin-section__header">
+            <h2 class="admin-section__title">Recent Orders</h2>
+            <button type="button" class="admin-text-btn" onclick="switchTab('orders')">View All →</button>
+          </div>
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Items</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody id="recentOrdersBody">
+                <tr><td colspan="6" class="admin-table__loading">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====== ORDERS TAB ====== -->
+      <div class="admin-tab hidden" id="tab-orders">
+        <div class="admin-section">
+          <div class="admin-section__header">
+            <h2 class="admin-section__title">All Orders</h2>
+            <div class="admin-filters">
+              <select class="admin-select" id="orderStatusFilter">
+                <option value="all">All Statuses</option>
+                <option value="processing">Processing</option>
+                <option value="confirmed">Confirmed</option>
+                <option value="shipped">Shipped</option>
+                <option value="delivered">Delivered</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
+            </div>
+          </div>
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Phone</th>
+                  <th>City</th>
+                  <th>Total</th>
+                  <th>Payment</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="allOrdersBody">
+                <tr><td colspan="8" class="admin-table__loading">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====== PRODUCTS TAB ====== -->
+      <div class="admin-tab hidden" id="tab-products">
+        <div class="admin-section">
+          <div class="admin-section__header">
+            <h2 class="admin-section__title">Products</h2>
+            <button type="button" class="btn btn--primary" id="addProductBtn"
+              style="padding:10px 20px;font-size:12px;">
+              + Add Product
+            </button>
+          </div>
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Number</th>
+                  <th>Category</th>
+                  <th>Intensity</th>
+                  <th>Price (50ml)</th>
+                  <th>Stock</th>
+                  <th>Sold</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="productsBody">
+                <tr><td colspan="9" class="admin-table__loading">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====== CUSTOMERS TAB ====== -->
+      <div class="admin-tab hidden" id="tab-customers">
+        <div class="admin-section">
+          <div class="admin-section__header">
+            <h2 class="admin-section__title">Customers</h2>
+          </div>
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>City</th>
+                  <th>Orders</th>
+                  <th>Total Spent</th>
+                </tr>
+              </thead>
+              <tbody id="customersBody">
+                <tr><td colspan="6" class="admin-table__loading">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ==================== ORDER DETAIL MODAL ==================== -->
+  <div class="admin-modal" id="orderModal" style="display:none;">
+    <div class="admin-modal__inner">
+      <div class="admin-modal__header">
+        <h3 class="admin-modal__title" id="modalOrderId">Order Details</h3>
+        <button type="button" class="admin-modal__close" id="closeModal">✕</button>
+      </div>
+      <div class="admin-modal__body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- ==================== PRODUCT MODAL ==================== -->
+  <div class="admin-modal" id="productModal" style="display:none;">
+    <div class="admin-modal__inner admin-modal__inner--wide">
+      <div class="admin-modal__header">
+        <h3 class="admin-modal__title" id="productModalTitle">Add Product</h3>
+        <button type="button" class="admin-modal__close" id="closeProductModal">✕</button>
+      </div>
+
+      <div class="admin-modal__body">
+        <div class="admin-form-grid">
+
+          <div class="form-group">
+            <label class="admin-form-label">Product Name</label>
+            <input type="text" class="admin-input" id="pName" placeholder="e.g. Laila Noir" />
+          </div>
+          <div class="form-group">
+            <label class="admin-form-label">Number</label>
+            <input type="text" class="admin-input" id="pNumber" placeholder="e.g. No. 07" />
+          </div>
+          <div class="form-group">
+            <label class="admin-form-label">Category</label>
+            <select class="admin-input" id="pCategory">
+              <option value="oriental">Oriental</option>
+              <option value="floral">Floral</option>
+              <option value="fresh">Fresh</option>
+              <option value="woody">Woody</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="admin-form-label">Intensity</label>
+            <select class="admin-input" id="pIntensity">
+              <option value="Light">Light</option>
+              <option value="Moderate">Moderate</option>
+              <option value="Intense">Intense</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="admin-form-label">Price (50ml) PKR</label>
+            <input type="number" class="admin-input" id="pPrice" placeholder="8500" />
+          </div>
+          <div class="form-group">
+            <label class="admin-form-label">Price (100ml) PKR</label>
+            <input type="number" class="admin-input" id="pPrice100" placeholder="11500" />
+          </div>
+          <div class="form-group">
+            <label class="admin-form-label">Stock</label>
+            <input type="number" class="admin-input" id="pStock" placeholder="100" />
+          </div>
+          <div class="form-group">
+            <label class="admin-form-label">Tag</label>
+            <select class="admin-input" id="pTag">
+              <option value="">None</option>
+              <option value="New">New</option>
+              <option value="Bestseller">Bestseller</option>
+            </select>
+          </div>
+
+          <div class="form-group" style="grid-column:1/-1;">
+            <label class="admin-form-label">Top Notes</label>
+            <input type="text" class="admin-input" id="pNotesTop" placeholder="e.g. Bergamot, Saffron" />
+          </div>
+          <div class="form-group" style="grid-column:1/-1;">
+            <label class="admin-form-label">Heart Notes</label>
+            <input type="text" class="admin-input" id="pNotesHeart" placeholder="e.g. Rose, Oud" />
+          </div>
+          <div class="form-group" style="grid-column:1/-1;">
+            <label class="admin-form-label">Base Notes</label>
+            <input type="text" class="admin-input" id="pNotesBase" placeholder="e.g. Amber, Musk" />
+          </div>
+          <div class="form-group" style="grid-column:1/-1;">
+            <label class="admin-form-label">Short Description</label>
+            <input type="text" class="admin-input" id="pDesc" placeholder="One line description..." />
+          </div>
+          <div class="form-group" style="grid-column:1/-1;">
+            <label class="admin-form-label">Long Description</label>
+            <textarea class="admin-input admin-textarea" id="pLongDesc"
+              placeholder="Full product description..."></textarea>
+          </div>
+
+          <!-- ====== IMAGE UPLOAD SECTION ====== -->
+          <div class="form-group"
+            style="grid-column:1/-1;border-top:1px solid var(--border);padding-top:20px;margin-top:8px;">
+            <label class="admin-form-label" style="margin-bottom:12px;">Product Images</label>
+
+            <!-- Existing images will render here -->
+            <div id="productImagesSection"></div>
+
+            <!-- Upload area -->
+            <div style="background:var(--bg-3);border:1px dashed rgba(201,165,90,0.3);
+              border-radius:12px;padding:24px;text-align:center;">
+
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1"
+                style="color:var(--gold-dim);margin:0 auto 12px;display:block;">
+                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+              </svg>
+
+              <p style="font-size:12px;color:var(--text-dim);letter-spacing:0.1em;
+                margin-bottom:14px;text-transform:uppercase;">
+                Upload Product Images
+              </p>
+
+              <!-- Hidden file input — multiple allowed -->
+              <input type="file" id="imageUploadInput"
+                accept="image/jpeg,image/jpg,image/png,image/webp"
+                multiple
+                style="display:none;" />
+
+              <!-- Label triggers file input -->
+              <label for="imageUploadInput"
+                style="display:inline-flex;align-items:center;gap:8px;
+                padding:10px 20px;border:1px solid rgba(201,165,90,0.35);
+                border-radius:50px;font-family:'Jost',sans-serif;font-size:12px;
+                letter-spacing:0.1em;color:var(--gold);cursor:pointer;
+                transition:all 0.3s;text-transform:uppercase;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="1.5">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="17 8 12 3 7 8"/>
+                  <line x1="12" y1="3" x2="12" y2="15"/>
+                </svg>
+                Choose Images
+              </label>
+
+              <!-- Preview renders here -->
+              <div id="imagePreview"></div>
+
+              <!-- Upload button — hidden until files selected -->
+              <div style="margin-top:14px;">
+                <button type="button" id="uploadImageBtn"
+                  style="display:none;align-items:center;gap:8px;
+                  padding:10px 24px;background:var(--gold);color:var(--bg);
+                  border:none;border-radius:50px;font-family:'Jost',sans-serif;
+                  font-size:12px;letter-spacing:0.1em;text-transform:uppercase;
+                  cursor:pointer;transition:all 0.3s;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="1.5">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="17 8 12 3 7 8"/>
+                    <line x1="12" y1="3" x2="12" y2="15"/>
+                  </svg>
+                  Upload Images
+                </button>
+              </div>
+
+              <p style="font-size:11px;color:var(--text-dim);margin-top:12px;letter-spacing:0.05em;">
+                Max 10MB per image · JPG, PNG, WebP
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Modal footer buttons -->
+        <div class="admin-modal__footer">
+          <button type="button" class="btn btn--ghost" id="cancelProductBtn">Cancel</button>
+          <button type="button" class="btn btn--primary" id="saveProductBtn">Save Product</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="../../js/utils.js"></script>
+  <script src="../../js/api.js"></script>
+  <script src="../../js/admin.js"></script>
+</body>
+</html>
